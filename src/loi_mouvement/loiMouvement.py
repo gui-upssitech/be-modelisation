@@ -1,6 +1,6 @@
 import afficheCourbesTP as affC
 import numpy as np
-
+import math as m
 
 class LoiMouvement:
 
@@ -8,9 +8,7 @@ class LoiMouvement:
         self.vMax = vMax
         self.distanceTotal = distanceTotal
 
-        constanteDeCaPassePasDoncOnMetCaPourQueCaColle = 4/3
-
-        self.totalTime =  constanteDeCaPassePasDoncOnMetCaPourQueCaColle * distanceTotal/vMax
+        self.totalTime =  2 * distanceTotal/vMax
         self.midTime = self.totalTime/2
 
 
@@ -18,8 +16,16 @@ class LoiMouvement:
         if t<=self.midTime :
             return  self.vMax*t*t/self.totalTime
         else:
-            #return 2*t*self.vMax - self.vMax*t*t/self.totalTime
-            return (self.vMax*self.midTime*self.midTime)/self.totalTime     -   (self.vMax/(self.midTime - self.totalTime)) * (-t*t/2 + self.totalTime*t-(self.totalTime*self.midTime)/2)
+           # midTimeCoordonate = self.vMax*self.midTime*self.midTime/self.totalTime
+
+            second_order =  -t*t/2 * self.vMax/self.midTime
+
+            first_order =  t* self.totalTime*self.vMax / self.midTime
+            
+            zero_order =  - ( self.vMax * self.totalTime)/2 
+
+            return  second_order + first_order + zero_order
+
 
     def getSpeed(self,t:float) -> float:
         if t<=self.midTime :
@@ -65,12 +71,18 @@ def testLoiMouvement(vMax,distance, te):
     
     affC.afficheAccSpeedPos(simTime,aCurve,sCurve,dCurve)
 
+    transition_time =  m.ceil(len(simTime)/2)
+
+    transitionError = dCurve[transition_time] - dCurve[transition_time -1]
+
+    print("\ntransition_time : ",transition_time)
+    print("Erreur de transition : ",transitionError)
 
     
 
 if __name__ == "__main__":
     
-    testLoiMouvement(2,5,0.01)
+    testLoiMouvement(2,10,0.01)
     #testLoiMouvement(1,10,0.01)
 
     affC.bloque_affiche()
