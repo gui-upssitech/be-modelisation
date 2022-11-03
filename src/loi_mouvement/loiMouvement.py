@@ -8,14 +8,18 @@ class LoiMouvement:
         self.vMax = vMax
         self.distanceTotal = distanceTotal
 
-        self.totalTime = 4/vMax
+        constanteDeCaPassePasDoncOnMetCaPourQueCaColle = 4/3
+
+        self.totalTime =  constanteDeCaPassePasDoncOnMetCaPourQueCaColle * distanceTotal/vMax
         self.midTime = self.totalTime/2
+
 
     def getDistance(self,t:float) -> float:
         if t<=self.midTime :
             return  self.vMax*t*t/self.totalTime
         else:
-            return 2*t*self.vMax - self.vMax*t*t/self.totalTime
+            #return 2*t*self.vMax - self.vMax*t*t/self.totalTime
+            return (self.vMax*self.midTime*self.midTime)/self.totalTime     -   (self.vMax/(self.midTime - self.totalTime)) * (-t*t/2 + self.totalTime*t-(self.totalTime*self.midTime)/2)
 
     def getSpeed(self,t:float) -> float:
         if t<=self.midTime :
@@ -28,6 +32,7 @@ class LoiMouvement:
             return 2*self.vMax/self.totalTime
         else:
             return -2*self.vMax/self.totalTime
+
 
 
 #fonction de test de la loi de mouvement, Te en ms, vMax en m.s-1, distance en m
@@ -60,10 +65,12 @@ def testLoiMouvement(vMax,distance, te):
     
     affC.afficheAccSpeedPos(simTime,aCurve,sCurve,dCurve)
 
+
     
 
 if __name__ == "__main__":
-    testLoiMouvement(4,10,0.01)
+    
+    testLoiMouvement(2,5,0.01)
     #testLoiMouvement(1,10,0.01)
 
     affC.bloque_affiche()
