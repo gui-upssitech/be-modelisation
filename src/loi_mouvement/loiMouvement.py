@@ -82,8 +82,7 @@ def testLoiMouvement(vMax,distance, te):
 
 if __name__ == "__main__":
     
-    testLoiMouvement(2,10,0.01)
-    #testLoiMouvement(1,10,0.01)
+    testLoiMouvement(4,5,0.1)
 
     affC.bloque_affiche()
 
