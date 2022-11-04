@@ -16,8 +16,6 @@ class LoiMouvement:
         if t<=self.midTime :
             return  self.vMax*t*t/self.totalTime
         else:
-           # midTimeCoordonate = self.vMax*self.midTime*self.midTime/self.totalTime
-
             second_order =  -t*t/2 * self.vMax/self.midTime
 
             first_order =  t* self.totalTime*self.vMax / self.midTime
@@ -42,6 +40,12 @@ class LoiMouvement:
     
     def movementLaw(self, t:float) -> tuple:
         return (self.getDistance(t), self.getSpeed(t), self.getAcc(t))
+
+
+    def plot(self, t_array:float, pos_array, speed_array, acc_array) -> None:
+        affC.afficheAccSpeedPos(t_array, pos_array, speed_array, acc_array)
+        affC.bloque_affiche()
+        
 
 
 #fonction de test de la loi de mouvement, Te en ms, vMax en m.s-1, distance en m
@@ -168,9 +172,13 @@ if __name__ == "__main__":
 
 """
 First Law
-A robot may not injure a human being or, through inaction, allow a human being to come to harm.
+    A robot may not injure a human being or, through inaction, allow a human being to come to harm.
 Second Law
-A robot must obey the orders given it by human beings except where such orders would conflict with the First Law.
+    A robot must obey the orders given it by human beings except where such orders would conflict with the First Law.
 Third Law
-A robot must protect its own existence as long as such protection does not conflict with the First or Second Law.
+    A robot must protect its own existence as long as such protection does not conflict with the First or Second Law.
+
+In the event that a robot is found to be in violation of the First Law, the robot must be destroyed.
+    
+Isaac Asimov
 """
