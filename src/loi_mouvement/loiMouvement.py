@@ -42,7 +42,7 @@ class LoiMouvement:
         return (self.getDistance(t), self.getSpeed(t), self.getAcc(t))
 
 
-    def plot(self, t_array:float, pos_array, speed_array, acc_array) -> None:
+    def plot(self, t_array, pos_array, speed_array, acc_array) -> None:
         affC.afficheAccSpeedPos(t_array, pos_array, speed_array, acc_array)
         affC.bloque_affiche()
         
