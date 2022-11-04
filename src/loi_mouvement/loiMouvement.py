@@ -39,6 +39,9 @@ class LoiMouvement:
         else:
             return -2*self.vMax/self.totalTime
 
+    
+    def movementLaw(self, t:float) -> tuple:
+        return (self.getDistance(t), self.getSpeed(t), self.getAcc(t))
 
 
 #fonction de test de la loi de mouvement, Te en ms, vMax en m.s-1, distance en m
