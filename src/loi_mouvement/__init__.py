@@ -1,2 +1,2 @@
-from loiMouvement import LoiMouvement
-from afficheCourbesTP import afficheAccSpeedPos
+from .loiMouvement import LoiMouvement
+from .afficheCourbesTP import afficheAccSpeedPos

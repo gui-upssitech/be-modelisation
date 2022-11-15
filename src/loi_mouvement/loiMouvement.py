@@ -1,4 +1,4 @@
-import afficheCourbesTP as affC
+import src.loi_mouvement.afficheCourbesTP as affC
 import numpy as np
 import math as m
 
