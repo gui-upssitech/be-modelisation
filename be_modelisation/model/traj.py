@@ -1,6 +1,6 @@
 from point import Point
 import matplotlib.pyplot as plt
-from src.loi_mouvement import LoiMouvement
+from src_old.loi_mouvement import LoiMouvement
 
 class Trajectoire:
 
