@@ -14,6 +14,9 @@ class LoiMouvement:
         self.midTime = self.totalTime/2
         
 
+    @property
+    def total_time(self) -> float:
+        return self.totalTime
 
     def getDistance(self,t:float) -> float:
         if t<=self.midTime :
@@ -28,13 +31,13 @@ class LoiMouvement:
             return  second_order + first_order + zero_order
 
 
-    def getSpeed(self,t:float) -> float:
+    def get_speed(self,t:float) -> float:
         if t<=self.midTime :
             return 2*self.vMax*t/self.totalTime
         else:
             return -2*self.vMax*t/self.totalTime + 2*self.vMax 
 
-    def getAcc(self,t:float) -> float:
+    def get_accelaration(self,t:float) -> float:
         if t<=self.midTime :
             return 2*self.vMax/self.totalTime
         else:
@@ -42,7 +45,7 @@ class LoiMouvement:
 
     
     def movementLaw(self, t:float) -> tuple:
-        return (self.getDistance(t), self.getSpeed(t), self.getAcc(t))
+        return (self.get_distance(t), self.get_speed(t), self.get_accelaration(t))
 
 
     def plot(self, t_array, pos_array, speed_array, acc_array) -> None:
@@ -72,9 +75,9 @@ def testLoiMouvement(vMax:float,point_A:np.array,point_B:np.array, te:float) -> 
     
 
     for t in simTime:
-        dCurve.append(lm.getDistance(t))
-        sCurve.append(lm.getSpeed(t))
-        aCurve.append(lm.getAcc(t))
+        dCurve.append(lm.get_distance(t))
+        sCurve.append(lm.get_speed(t))
+        aCurve.append(lm.get_accelaration(t))
 
     print("Accélération max : ",np.max(aCurve))
     print("Vitesse max : ",np.max(sCurve))
@@ -97,6 +100,8 @@ if __name__ == "__main__":
     point_B = np.array([10,0,0])
 
     testLoiMouvement(4,point_A,point_B,0.01)
+    
+    testLoiMouvement(1,5,0.1)
 
     affC.bloque_affiche()
 
