@@ -8,7 +8,7 @@ class SettingsWidget:
 
         def parse_robot_param(value: Point | int):
             var = StringVar()
-            var.set(f"{value.x};{value.y};{value.z}" if isinstance(value, Point) else str(value))
+            var.set(str(value) if isinstance(value, int) else f"{value.x};{value.y};{value.z}")
             return var
 
         self.__wm = wm

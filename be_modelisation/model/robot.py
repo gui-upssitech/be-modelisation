@@ -3,6 +3,7 @@ from math import cos, sin
 
 from .point import Point
 from .loiMouvement import LoiMouvement
+from .traj import Trajectory
 
 ParamsDict = dict[str, Point | int]
 
@@ -20,6 +21,7 @@ class Robot:
         }
 
         self.__create_movement_law()
+        self.__trajectory = Trajectory(self)
 
     # Parameters
 
@@ -29,27 +31,35 @@ class Robot:
     def param(self, key: str) -> Point | int:
         return self.__params[key]
 
+    def set_param(self, key: str, value: Point | int):
+        self.__params[key] = value
+        self.__update()
+
     def set_params(self, params: ParamsDict):
         self.__params = params
+        self.__update()
+
+    def __update(self):
+        print("Updating robot")
         self.__create_movement_law()
+        self.trajectory.update_params()
 
     # Movement
+
     def __create_movement_law(self):
         self.__movement_law = LoiMouvement(self.param("V"), self.param("A").dist(self.param("B")))
-
-    def trajectory(self, A: Point, B: Point, theta: float, speed: float):
-        # Compute distance between points
-        distance = A.dist(B)
-        self.__movement_law = LoiMouvement(speed, distance)
-
-        M = self.compute_mgd(A, [0, 0, 0, 0])
-
-        pass
 
     @property
     def movement_law(self) -> LoiMouvement:
         return self.__movement_law
 
+    # Trajectory
+
+    @property
+    def trajectory(self) -> Trajectory:
+        return self.__trajectory
+
+    # MGD
     def compute_mgd(self, origin: Point, q: list[float]) -> Point:
         c12 = cos(q[0] + q[1])
         s12 = sin(q[0] + q[1])

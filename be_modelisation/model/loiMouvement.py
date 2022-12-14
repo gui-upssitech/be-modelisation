@@ -1,4 +1,3 @@
-import afficheCourbesTP as affC
 import numpy as np
 import math as m
 
@@ -7,8 +6,8 @@ class LoiMouvement:
     def __init__(self, v_max: float, distance_total: float) -> None:
         self.vMax = v_max
 
-        self.distance_totale = distance_total
-        self.totalTime =  2 * self.distance_totale / v_max
+        self.total_distance = distance_total
+        self.totalTime =  2 * self.total_distance / v_max
         self.midTime = self.totalTime/2
         
 
@@ -35,7 +34,7 @@ class LoiMouvement:
         else:
             return -2*self.vMax*t/self.totalTime + 2*self.vMax 
 
-    def get_accelaration(self,t:float) -> float:
+    def get_acceleration(self,t:float) -> float:
         if t<=self.midTime :
             return 2*self.vMax/self.totalTime
         else:
@@ -46,9 +45,9 @@ class LoiMouvement:
         return (self.get_distance(t), self.get_speed(t), self.get_accelaration(t))
 
 
-    def plot(self, t_array, pos_array, speed_array, acc_array) -> None:
-        affC.afficheAccSpeedPos(t_array, pos_array, speed_array, acc_array)
-        affC.bloque_affiche()
+    # def plot(self, t_array, pos_array, speed_array, acc_array) -> None:
+    #     affC.afficheAccSpeedPos(t_array, pos_array, speed_array, acc_array)
+    #     affC.bloque_affiche()
         
 
 

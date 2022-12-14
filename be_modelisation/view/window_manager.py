@@ -2,19 +2,19 @@ from tkinter import *
 from tkinter import ttk
 
 from .tkfigure import TKFigure
-from .widgets import SettingsWidget, MovementLawWidget
+from .widgets import SettingsWidget, MovementLawWidget, TrajectoryWidget
 
 from be_modelisation.model import Robot
 
 class WindowManager:
 
-    def __init__(self):
+    def __init__(self, robot: Robot):
         self.__create_window()
-
-        robot = Robot()
 
         self.settings_widget = SettingsWidget(self, robot)
         self.movement_law_widget = MovementLawWidget(robot)
+        self.trajectory_widget = TrajectoryWidget(robot)
+
         self.__setup_frames()
 
     # =================
@@ -26,6 +26,7 @@ class WindowManager:
 
     def redraw(self):
         self.movement_law_widget.redraw()
+        self.trajectory_widget.redraw()
 
     # =================
     # Private methods
@@ -34,7 +35,7 @@ class WindowManager:
     def __create_window(self) -> tuple[Tk, int, int]:
         window = Tk()
         window.title('BE Modélisation')
-        window.geometry("1024x720")
+        window.geometry("1280x800")
         window.config(bg="#DDD")
         window.resizable(False, False)
 
@@ -49,6 +50,7 @@ class WindowManager:
 
         self.settings_widget.draw(notebook)
         self.movement_law_widget.draw(notebook)
+        self.trajectory_widget.draw(notebook)
         
         notebook.pack(fill=BOTH, expand=True)
 

@@ -1,74 +1,48 @@
-from point import Point
-import matplotlib.pyplot as plt
-from src_old.loi_mouvement import LoiMouvement
+# from . import Robot
+# from .loiMouvement import LoiMouvement
 
-class Trajectoire:
+import numpy as np
 
-    def __init__(self, loi_mouvement: LoiMouvement) -> None:
-        self.__loi_mouvement = loi_mouvement
+Vec3D = (float, float, float)
 
-    def set_points(self, a: Point, b: Point):
-        self.__a = a
-        self.__b = b
-    
+class Trajectory:
+
+    def __init__(self, robot) -> None:
+        self.__robot = robot
+        self.update_params()
+
+    def update_params(self):
+        self.__law = self.__robot.movement_law
+        self.__a = self.__robot.param("A")
+        self.__b = self.__robot.param("B")
+
     def __k(self, a: float, b: float) -> float:
-        distance = self.__a.dist(self.__b)
-        return (b - a) / distance
+        return np.abs(a-b) / self.__a.dist(self.__b)
 
-    def get_dist(self, t: float) -> Point:
+    def get_distance(self, t: float) -> Vec3D:
         a = self.__a
         b = self.__b
 
         def dist(a: float, b: float) -> float:
-            return self.__k(a, b) * self.__loi_mouvement.getDistance(t) + a
+            return self.__k(a, b) * self.__law.get_distance(t) + a
 
-        return Point(dist(a.x, b.x), dist(a.y, b.y), dist(a.z, b.z))
+        res = (dist(a.x, b.x), dist(a.y, b.y), dist(a.z, b.z))
+        return res
 
-    def get_speed(self, t: float) -> Point:
+    def get_speed(self, t: float) -> Vec3D:
         a = self.__a
         b = self.__b
 
         def speed(a: float, b: float) -> float:
-            return self.__k(a, b) * self.__loi_mouvement.getSpeed(t)
+            return self.__k(a, b) * self.__law.get_speed(t)
 
-        return Point(speed(a.x, b.x), speed(a.y, b.y), speed(a.z, b.z))
+        return (speed(a.x, b.x), speed(a.y, b.y), speed(a.z, b.z))
 
-    def get_acc(self, t: float) -> Point:
+    def get_acceleration(self, t: float) -> Vec3D:
         a = self.__a
         b = self.__b
 
-        def speed(a: float, b: float) -> float:
-            return self.__k(a, b) * self.__loi_mouvement.getAcc(t)
-
-        return Point(speed(a.x, b.x), speed(a.y, b.y), speed(a.z, b.z))
-
-    def afficher(self):
-        plt.plot(self.__a)
-
-if __name__ == "__main__":
-    import math
-    import numpy as np
-
-    a = Point(0, 0, 0)
-    b = Point(2, 4, 6)
-
-    loi_mouvement = LoiMouvement(5, 100)
-    traj = Trajectoire(loi_mouvement)
-    traj.set_points(a, b)
-
-    n_points = 50
-
-    s: list[float] = np.linspace(0, a.dist(b), n_points).tolist()
-    m = [ traj.get_dist(ss) for ss in s ]
-
-    # Graph
-    plt.figure()
-    ax = plt.axes(projection="3d")
-
-    for p in m:
-        p.plot(ax, "blue")
-
-    a.plot(ax, "red")
-    b.plot(ax, "red")
-
-    plt.show()
+        def accel(a: float, b: float) -> float:
+            return self.__k(a, b) * self.__law.get_acceleration(t)
+        
+        return (accel(a.x, b.x), accel(a.y, b.y), accel(a.z, b.z))

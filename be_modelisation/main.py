@@ -1,24 +1,14 @@
-# from robot import Robot
-# from point import Point
 from view import WindowManager
+from model import Robot, Point
 
 def main():
+    # Create robot
+    robot = Robot()
+    robot.set_param("B", Point(1, 2, 3))
 
     # Create window manager
-    window_manager = WindowManager()
+    window_manager = WindowManager(robot)
     window_manager.start()
-
-    # l = [1, 1, 1, 1]
-    # h = [1, 1]
-
-    # a = Point(0, 0, 0)
-    # b = Point(1, 1, 1)
-    # theta = 0
-    # speed = 1
-
-    # robot = Robot(h, l)
-    # robot.trajectory(a, b, theta, speed)
-    pass
 
 
 if __name__ == "__main__":
