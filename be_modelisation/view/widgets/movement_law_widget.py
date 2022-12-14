@@ -2,14 +2,15 @@ from tkinter import *
 import numpy as np
 
 from ..tkfigure import TKFigure
-from be_modelisation.model.loiMouvement import LoiMouvement
+from be_modelisation.model import Robot
 
 class MovementLawWidget:
 
-    def __init__(self):
-        self.law = LoiMouvement(1, 5)
+    def __init__(self, robot: Robot):
+        self.__robot = robot
 
-    def draw(self, parent):
+    def draw(self, parent: Frame):
+        print("Draw")
         # Create widget root
         root = Frame(parent)
 
@@ -20,12 +21,20 @@ class MovementLawWidget:
         root.pack(fill=BOTH, expand=True)
         parent.add(root, text="Loi de mouvement")
 
-    def draw_three_figs(self, parent):
-        t = [i for i in np.linspace(0, self.law.total_time, 1000)]
+        self.__parent = parent
+        self.__root = root
 
-        distance = [self.law.get_distance(i) for i in t]
-        speed = [self.law.get_speed(i) for i in t]
-        acceleration = [self.law.get_accelaration(i) for i in t]
+    def redraw(self):
+        self.__root.destroy()        
+        self.draw(self.__parent)
+
+    def draw_three_figs(self, parent):
+        law = self.__robot.movement_law
+        t = [i for i in np.linspace(0, law.total_time, 1000)]
+
+        distance = [law.get_distance(i) for i in t]
+        speed = [law.get_speed(i) for i in t]
+        acceleration = [law.get_accelaration(i) for i in t]
 
         fig = TKFigure.new_fig()
         fig.set_constrained_layout(True)

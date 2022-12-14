@@ -4,13 +4,17 @@ from tkinter import ttk
 from .tkfigure import TKFigure
 from .widgets import SettingsWidget, MovementLawWidget
 
+from be_modelisation.model import Robot
+
 class WindowManager:
 
     def __init__(self):
         self.__create_window()
 
-        self.settings_widget = SettingsWidget()
-        self.movement_law_widget = MovementLawWidget()
+        robot = Robot()
+
+        self.settings_widget = SettingsWidget(self, robot)
+        self.movement_law_widget = MovementLawWidget(robot)
         self.__setup_frames()
 
     # =================
@@ -19,6 +23,9 @@ class WindowManager:
 
     def start(self):
         self.window.mainloop()
+
+    def redraw(self):
+        self.movement_law_widget.redraw()
 
     # =================
     # Private methods

@@ -1,4 +1,3 @@
-import math
 import numpy as np
 from typing_extensions import Self
 
@@ -17,7 +16,7 @@ class Point:
         return np.matrix([self.x, self.y, self.z, 0]).T
 
     def dist(self, a: Self) -> float:
-        return math.sqrt((self.x - a.x)**2 + (self.y - a.y)**2 + (self.z - a.z)**2)
+        return np.sqrt((self.x - a.x)**2 + (self.y - a.y)**2 + (self.z - a.z)**2)
 
     def plot(self, ax, color=""):
         ax.scatter3D(self.x, self.y, self.z, c=color)
