@@ -4,13 +4,11 @@ import math as m
 
 class LoiMouvement:
 
-    def __init__(self, vMax:float,start_point:np.array,end_point:np.array) -> None:
-        self.vMax = vMax
-        self.start_point = start_point
-        self.end_point = end_point
+    def __init__(self, v_max: float, distance_total: float) -> None:
+        self.vMax = v_max
 
-        self.distanceTotal = np.linalg.norm(end_point - start_point)
-        self.totalTime =  2 * self.distanceTotal/vMax
+        self.distance_totale = distance_total
+        self.totalTime =  2 * self.distance_totale / v_max
         self.midTime = self.totalTime/2
         
 
@@ -18,7 +16,7 @@ class LoiMouvement:
     def total_time(self) -> float:
         return self.totalTime
 
-    def getDistance(self,t:float) -> float:
+    def get_distance(self,t:float) -> float:
         if t<=self.midTime :
             return  self.vMax*t*t/self.totalTime
         else:
