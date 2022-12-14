@@ -4,18 +4,21 @@ import math as m
 
 class LoiMouvement:
 
-    def __init__(self, vMax:float,distanceTotal:float) -> None:
+    def __init__(self, vMax:float,start_point:np.array,end_point:np.array) -> None:
         self.vMax = vMax
-        self.distanceTotal = distanceTotal
+        self.start_point = start_point
+        self.end_point = end_point
 
-        self.totalTime =  2 * distanceTotal/vMax
+        self.distanceTotal = np.linalg.norm(end_point - start_point)
+        self.totalTime =  2 * self.distanceTotal/vMax
         self.midTime = self.totalTime/2
+        
 
     @property
     def total_time(self) -> float:
         return self.totalTime
 
-    def get_distance(self,t:float) -> float:
+    def getDistance(self,t:float) -> float:
         if t<=self.midTime :
             return  self.vMax*t*t/self.totalTime
         else:
@@ -52,9 +55,11 @@ class LoiMouvement:
 
 
 #fonction de test de la loi de mouvement, Te en ms, vMax en m.s-1, distance en m
-def testLoiMouvement(vMax,distance, te):
+#prend également en entrée la période d'échantillonage Te en s
+def testLoiMouvement(vMax:float,point_A:np.array,point_B:np.array, te:float) -> None:
     print("Simulation de la loi de mouvement")
-    lm = LoiMouvement(vMax,distance) #vitesse 3, distance de 10
+
+    lm = LoiMouvement(vMax,point_A,point_B) #vitesse 3, distance de 10
     print("Loi de mouvement initialisé")
     print("objectif de vitesse Max : ",lm.vMax)
     print("Distance à parcourir : ", lm.distanceTotal)
@@ -91,6 +96,10 @@ def testLoiMouvement(vMax,distance, te):
     
 
 if __name__ == "__main__":
+    point_A = np.array([0,0,0])
+    point_B = np.array([10,0,0])
+
+    testLoiMouvement(4,point_A,point_B,0.01)
     
     testLoiMouvement(1,5,0.1)
 
