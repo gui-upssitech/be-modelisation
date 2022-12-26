@@ -4,6 +4,7 @@ from model import Robot, Point
 def main():
     # Create robot
     robot = Robot()
+    robot.set_param("A", Point(4, 2, 3))
     robot.set_param("B", Point(1, 2, 3))
 
     # Create window manager

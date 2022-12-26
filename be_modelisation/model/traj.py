@@ -17,7 +17,7 @@ class Trajectory:
         self.__b = self.__robot.param("B")
 
     def __k(self, a: float, b: float) -> float:
-        return np.abs(a-b) / self.__a.dist(self.__b)
+        return (b-a) / self.__a.dist(self.__b)
 
     def get_distance(self, t: float) -> Vec3D:
         a = self.__a
@@ -34,7 +34,7 @@ class Trajectory:
         b = self.__b
 
         def speed(a: float, b: float) -> float:
-            return self.__k(a, b) * self.__law.get_speed(t)
+            return abs(self.__k(a, b)) * self.__law.get_speed(t)
 
         return (speed(a.x, b.x), speed(a.y, b.y), speed(a.z, b.z))
 
@@ -43,6 +43,6 @@ class Trajectory:
         b = self.__b
 
         def accel(a: float, b: float) -> float:
-            return self.__k(a, b) * self.__law.get_acceleration(t)
+            return abs(self.__k(a, b)) * self.__law.get_acceleration(t)
         
         return (accel(a.x, b.x), accel(a.y, b.y), accel(a.z, b.z))

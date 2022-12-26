@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import ttk
 
 from .tkfigure import TKFigure
-from .widgets import SettingsWidget, MovementLawWidget, TrajectoryWidget
+from .widgets import *
 
 from be_modelisation.model import Robot
 
@@ -14,6 +14,8 @@ class WindowManager:
         self.settings_widget = SettingsWidget(self, robot)
         self.movement_law_widget = MovementLawWidget(robot)
         self.trajectory_widget = TrajectoryWidget(robot)
+
+        self.robot_widget = RobotWidget(robot)
 
         self.__setup_frames()
 
@@ -27,6 +29,7 @@ class WindowManager:
     def redraw(self):
         self.movement_law_widget.redraw()
         self.trajectory_widget.redraw()
+        self.robot_widget.redraw()
 
     # =================
     # Private methods
@@ -55,22 +58,8 @@ class WindowManager:
         notebook.pack(fill=BOTH, expand=True)
 
         # Setup right frame
-        self.right_frame_plot(right_frame)
+        self.robot_widget.draw(right_frame)
 
         # Pack frames
         left_frame.pack(side=LEFT, fill=BOTH, expand=True)
         right_frame.pack(side=RIGHT, fill=BOTH, expand=True)
-
-
-    def right_frame_plot(self, parent):
-        # TODO: Replace with 3D widget
-
-        fig = TKFigure.new_fig()
-  
-        # list of squares
-        plot1 = fig.add_subplot(111)
-
-        y = [i**2 for i in range(101)]
-        plot1.plot(y)
-
-        TKFigure.add_to_frame(fig, parent)

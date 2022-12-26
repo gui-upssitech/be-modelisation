@@ -13,7 +13,7 @@ class Point:
         return Point(vec[0, 0], vec[1, 0], vec[2, 0])
 
     def to_column_vec(self) -> list[float]:
-        return np.matrix([self.x, self.y, self.z, 0]).T
+        return np.matrix([self.x, self.y, self.z]).T
 
     def dist(self, a: Self) -> float:
         return np.sqrt((self.x - a.x)**2 + (self.y - a.y)**2 + (self.z - a.z)**2)
