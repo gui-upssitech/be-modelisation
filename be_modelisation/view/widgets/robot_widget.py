@@ -1,4 +1,4 @@
-from be_modelisation.model import Robot, Point
+from be_modelisation.model import Q, Joints, Point, Parameters
 from tkinter import *
 from ..tkfigure import TKFigure
 from matplotlib.animation import FuncAnimation
@@ -10,13 +10,22 @@ from mpl_toolkits.mplot3d import art3d
 
 class RobotWidget:
 
-    def __init__(self, robot: Robot):
-        self.__robot = robot
+    def __init__(self, parameters: Parameters, a: Point, b: Point, joints_lists: list[list[Joints]]):
+        self.joints_lists = joints_lists
+        self.parameters = parameters
+        self.points = (a, b)
+
         self.__show_bounds = IntVar()
+        self.cur_list = 0
+        self.cur_index = 0
 
     # =================
     # Public methods
     # =================
+
+    @property
+    def cur_joints(self):
+        return self.joints_lists[self.cur_list][self.cur_index]
 
     def draw(self, parent):
         root = Frame(parent, bg="#FFFFFF")
@@ -37,22 +46,14 @@ class RobotWidget:
 
     def animate(self):
         print("Animating")
-
-        total_time = self.__robot.movement_law.total_time
-        for i in np.linspace(0, total_time, 50):
+        for i in self.cur_joints[self.cur_list]:
             self.seek(i)
             time.sleep(0.1)
         pass
 
     def seek(self, value):
-        value = float(value)
-        r = self.__robot
-        
-        point = Point(*r.trajectory.get_distance(value))
-        r.set_position(point)
+        self.cur_index = int(value)
         self.redraw()
-
-        print("Seeking", value, "->", point)
 
     # =================
     # Private methods
@@ -66,11 +67,13 @@ class RobotWidget:
             show_btn.grid(row=0, column=0, pady=10, sticky="w")
 
         def draw_playback():
-            play_btn = Button(settings, text="Lancer simulation", command=self.animate)
-            play_btn.grid(row=1, column=0, sticky="w")
+            # play_btn = Button(settings, text="Lancer simulation", command=self.animate)
+            # play_btn.grid(row=1, column=0, sticky="w")
 
-            total_time = self.__robot.movement_law.total_time
-            play_seek = Scale(settings, from_=0, to=total_time, resolution=total_time/1000, orient=HORIZONTAL, showvalue=0, command=self.seek)
+            Label(settings, text="Dérouler le mouvement du bras", bg="#FFFFFF").grid(row=1, column=0, sticky="w")
+
+            max_value = len(self.joints_lists[self.cur_list])
+            play_seek = Scale(settings, from_=0, to=max_value-1, resolution=max_value/1000, orient=HORIZONTAL, showvalue=0, command=self.seek)
             play_seek.grid(row=1, column=1, sticky="ew", columnspan=2)
 
         
@@ -81,19 +84,20 @@ class RobotWidget:
 
     def __draw_robot(self):
         ax = self.__ax
-        r = self.__robot
+        p = self.parameters
 
         def draw_traj():
-            a, b = r.param("A"), r.param("B")
+            a, b = self.points
             self.__traj_line, = ax.plot3D([a.x, b.x], [a.y, b.y], [a.z, b.z], 'o-', color="#FF0000", lw=2, markersize=4)
+            pass
 
         def draw_circle():
-            circle = Circle((0, 0), sum(r.get_lengths()), color="#FF0000", alpha=0.1, fill=True)
+            circle = Circle((0, 0), sum(p.get_lengths()), color="#FF0000", alpha=0.1, fill=True)
             ax.add_patch(circle)
             art3d.pathpatch_2d_to_3d(circle, z=0, zdir="z")
 
         def set_limits():
-            limit = sum(r.get_lengths()) * 1.2
+            limit = sum(p.get_lengths()) * 1.2
             ax.set_xlim(-limit, limit)
             ax.set_ylim(-limit, limit)
             ax.set_zlim(0, limit)
@@ -102,7 +106,7 @@ class RobotWidget:
             pair = True
             old_point = Point(0, 0, 0)
 
-            for point in r.get_joints():
+            for point in self.cur_joints:
                 color = "#333333" if pair else "#AAAAAA"
                 pair = not pair            
                 

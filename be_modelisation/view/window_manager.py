@@ -1,21 +1,21 @@
 from tkinter import *
 from tkinter import ttk
 
-from .tkfigure import TKFigure
 from .widgets import *
 
-from be_modelisation.model import Robot
+from be_modelisation.model import Livrable, Parameters, Point
 
 class WindowManager:
 
-    def __init__(self, robot: Robot):
+    def __init__(self, l: Livrable, parameters: Parameters, a: Point, b: Point):
         self.__create_window()
 
-        self.settings_widget = SettingsWidget(self, robot)
-        self.movement_law_widget = MovementLawWidget(robot)
-        self.trajectory_widget = TrajectoryWidget(robot)
+        # self.settings_widget = SettingsWidget(self, robot)
+        self.movement_law_widget = MovementLawWidget(l.t, l.s)
+        self.trajectory_widget = TrajectoryWidget(l.t, l.x, l.y, l.z)
+        self.q_graph_widget = QGraphWidget(l.t, l.q)
 
-        self.robot_widget = RobotWidget(robot)
+        self.robot_widget = RobotWidget(parameters, a, b, l.joints)
 
         self.__setup_frames()
 
@@ -23,12 +23,13 @@ class WindowManager:
     # Public methods
     # =================
 
-    def start(self):
+    def run(self):
         self.window.mainloop()
 
     def redraw(self):
         self.movement_law_widget.redraw()
         self.trajectory_widget.redraw()
+        self.q_graph_widget.redraw()
         self.robot_widget.redraw()
 
     # =================
@@ -51,9 +52,10 @@ class WindowManager:
         # Setup left frame
         notebook = ttk.Notebook(left_frame)
 
-        self.settings_widget.draw(notebook)
+        # self.settings_widget.draw(notebook)
         self.movement_law_widget.draw(notebook)
         self.trajectory_widget.draw(notebook)
+        self.q_graph_widget.draw(notebook)
         
         notebook.pack(fill=BOTH, expand=True)
 

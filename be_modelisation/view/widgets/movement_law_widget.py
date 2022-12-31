@@ -2,12 +2,13 @@ from tkinter import *
 import numpy as np
 
 from ..tkfigure import TKFigure
-from be_modelisation.model import Robot
+from be_modelisation.model import Law
 
 class MovementLawWidget:
 
-    def __init__(self, robot: Robot):
-        self.__robot = robot
+    def __init__(self, t: list[float], s: Law):
+        self.t = t
+        self.s = s
 
     def draw(self, parent: Frame):
         # Create widget root
@@ -28,27 +29,20 @@ class MovementLawWidget:
         self.draw(self.__parent)
 
     def draw_three_figs(self, parent):
-        law = self.__robot.movement_law
-        t = [i for i in np.linspace(0, law.total_time, 1000)]
-
-        distance = [law.get_distance(i) for i in t]
-        speed = [law.get_speed(i) for i in t]
-        acceleration = [law.get_acceleration(i) for i in t]
-
         fig = TKFigure.new_fig()
         fig.set_constrained_layout(True)
 
         plot_dist = fig.add_subplot(311)
         plot_dist.set_title("Distance (m) dans le temps (s)")
-        plot_dist.plot(t, distance)
+        plot_dist.plot(self.t, self.s.dist)
 
         plot_speed = fig.add_subplot(312)
         plot_speed.set_title("Vitesse (m.s-1) dans le temps (s)")
-        plot_speed.plot(t, speed)
+        plot_speed.plot(self.t, self.s.speed)
 
         plot_acc = fig.add_subplot(313)
         plot_acc.set_title("Acceleration (m.s-2) dans le temps (s)")
-        plot_acc.plot(t, acceleration)
+        plot_acc.plot(self.t, self.s.acc)
 
         TKFigure.add_to_frame(fig, parent, padding=10)
 

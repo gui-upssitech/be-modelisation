@@ -1,16 +1,17 @@
 from math import cos, sin, sqrt, atan2
-from .point import Point
+from ..point import Point
+from ..parameters import Parameters
 
 class MGI:
 
-    def __init__(self, robot):
-        self.__robot = robot
+    def __init__(self, parameters: Parameters):
+        self.__parameters = parameters
 
     def compute(self, dest: Point, theta: float) -> list[list[float]]:
         # Variable setup
-        r = self.__robot
-        l1, l2, l3, l4, l5 = r.l(1), r.l(2), r.l(3), r.l(4), r.l(5)
-        h1, h2 = r.h(1), r.h(2)
+        p = self.__parameters
+        l1, l2, l3, l4, l5 = p.l(1), p.l(2), p.l(3), p.l(4), p.l(5)
+        h1, h2 = p.h(1), p.h(2)
 
         l34 = l3 + l4
 
