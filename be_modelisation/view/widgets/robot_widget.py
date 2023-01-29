@@ -30,7 +30,7 @@ class RobotWidget:
     def draw(self, parent):
         root = Frame(parent, bg="#FFFFFF")
         self.__figure = TKFigure.new_fig()
-        self.__ax = self.__figure.gca(projection='3d')
+        self.__ax = self.__figure.add_subplot(111, projection="3d")
 
         self.__draw_robot()
 

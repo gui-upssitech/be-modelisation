@@ -3,10 +3,12 @@
 ## Execution
 
 1. Cloner le dépot GitHub
-2. Installer les bibliothèques nécéssaires
+2. Rendre executable les fichiers `setup.bash` et `run.bash`:
 ```
-tkinter, matplotlib, numpy
+chmod +x setup.bash
+chmod +x run.bash
 ```
-3. Modifier les paramètres dans le fichier `be_modelisation/main.py`
-4. Executer le fichier `be_modelisation/main.py`
+3. Exécuter le fichier `setup.bash`
+4. Modifier les paramètres dans le fichier `be_modelisation/main.py`
+5. Executer le fichier `run.bash`
 
