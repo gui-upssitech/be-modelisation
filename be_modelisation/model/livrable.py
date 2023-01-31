@@ -1,35 +1,32 @@
-from dataclasses import dataclass
-
 from .point import Point
 from .parameters import Parameters
 from .blocks import LoiMouvement, Trajectory, MGD, MGI
 
 import numpy as np
 
-Q = list[float]
-Joints = list[Point]
 
-@dataclass
 class Law:
-    dist: list[float]
-    speed: list[float]
-    acc: list[float]
+    def __init__(self, dist, speed, acc):
+        self.dist = dist
+        self.speed = speed
+        self.acc = acc
 
-@dataclass
 class Livrable:
-    t: list[float]
-    s: Law
 
-    x: Law
-    y: Law
-    z: Law
+    def __init__(self, t, s, x, y, z, q, joints):
+        self.t = t
+        self.s = s
 
-    q: list[list[Q]]
-    joints: list[list[Joints]]
+        self.x = x
+        self.y = y
+        self.z = z
+
+        self.q = q
+        self.joints = joints
 
 
 
-def trajectoire(a: Point, b: Point, theta: float, v: float, parameters: Parameters) -> Livrable:
+def trajectoire(a, b, theta, v, parameters):
     mvt_law = LoiMouvement(v, a.dist(b))
 
     t = np.linspace(0, mvt_law.total_time, 1000)

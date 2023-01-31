@@ -10,7 +10,7 @@ from mpl_toolkits.mplot3d import art3d
 
 class RobotWidget:
 
-    def __init__(self, parameters: Parameters, a: Point, b: Point, joints_lists: list[list[Joints]]):
+    def __init__(self, parameters, a, b, joints_lists):
         self.joints_lists = joints_lists
         self.parameters = parameters
         self.points = (a, b)

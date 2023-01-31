@@ -3,7 +3,7 @@ import math as m
 
 class LoiMouvement:
 
-    def __init__(self, v_max: float, distance_total: float) -> None:
+    def __init__(self, v_max, distance_total) -> None:
         self.vMax = v_max
 
         self.total_distance = distance_total
@@ -12,10 +12,10 @@ class LoiMouvement:
         
 
     @property
-    def total_time(self) -> float:
+    def total_time(self):
         return self.totalTime
 
-    def get_distance(self,t:float) -> float:
+    def get_distance(self, t):
         if t<=self.midTime :
             return  self.vMax*t*t/self.totalTime
         else:
@@ -28,79 +28,21 @@ class LoiMouvement:
             return  second_order + first_order + zero_order
 
 
-    def get_speed(self,t:float) -> float:
+    def get_speed(self, t):
         if t<=self.midTime :
             return 2*self.vMax*t/self.totalTime
         else:
             return -2*self.vMax*t/self.totalTime + 2*self.vMax 
 
-    def get_acceleration(self,t:float) -> float:
+    def get_acceleration(self, t):
         if t<=self.midTime :
             return 2*self.vMax/self.totalTime
         else:
             return -2*self.vMax/self.totalTime
 
     
-    def movementLaw(self, t:float) -> tuple:
+    def movementLaw(self, t):
         return (self.get_distance(t), self.get_speed(t), self.get_accelaration(t))
-
-
-    # def plot(self, t_array, pos_array, speed_array, acc_array) -> None:
-    #     affC.afficheAccSpeedPos(t_array, pos_array, speed_array, acc_array)
-    #     affC.bloque_affiche()
-        
-
-
-#fonction de test de la loi de mouvement, Te en ms, vMax en m.s-1, distance en m
-#prend également en entrée la période d'échantillonage Te en s
-def testLoiMouvement(vMax:float,point_A:np.array,point_B:np.array, te:float) -> None:
-    print("Simulation de la loi de mouvement")
-
-    lm = LoiMouvement(vMax,point_A,point_B) #vitesse 3, distance de 10
-    print("Loi de mouvement initialisé")
-    print("objectif de vitesse Max : ",lm.vMax)
-    print("Distance à parcourir : ", lm.distanceTotal)
-    print("Temps total : ",lm.totalTime)
-    
-
-    dCurve =[]
-    sCurve = []
-    aCurve = []
-
-    print("Simulation en cours...")
-    simTime = list(np.arange(0,lm.totalTime,te))
-    
-
-    for t in simTime:
-        dCurve.append(lm.get_distance(t))
-        sCurve.append(lm.get_speed(t))
-        aCurve.append(lm.get_accelaration(t))
-
-    print("Accélération max : ",np.max(aCurve))
-    print("Vitesse max : ",np.max(sCurve))
-    print("Distance max : ", np.max(dCurve))
-    print("Affichage des résultats de simulation")
-    
-    affC.afficheAccSpeedPos(simTime,aCurve,sCurve,dCurve)
-
-    transition_time =  m.ceil(len(simTime)/2)
-
-    transitionError = dCurve[transition_time] - dCurve[transition_time -1]
-
-    print("\ntransition_time : ",transition_time)
-    print("Erreur de transition : ",transitionError)
-
-    
-
-if __name__ == "__main__":
-    point_A = np.array([0,0,0])
-    point_B = np.array([10,0,0])
-
-    testLoiMouvement(4,point_A,point_B,0.01)
-    
-    testLoiMouvement(1,5,0.1)
-
-    affC.bloque_affiche()
 
 
 

@@ -6,13 +6,13 @@ from be_modelisation.model import Law
 
 class TrajectoryWidget:
 
-    def __init__(self, t: list[float], x: Law, y: Law, z: Law):
+    def __init__(self, t, x, y, z):
         self.t = t
         self.x = x
         self.y = y
         self.z = z
 
-    def draw(self, parent: Frame):
+    def draw(self, parent):
         # Create widget root
         root = Frame(parent)
 

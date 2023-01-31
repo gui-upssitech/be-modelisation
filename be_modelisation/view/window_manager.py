@@ -7,7 +7,7 @@ from be_modelisation.model import Livrable, Parameters, Point
 
 class WindowManager:
 
-    def __init__(self, l: Livrable, parameters: Parameters, a: Point, b: Point):
+    def __init__(self, l, parameters, a, b):
         self.__create_window()
 
         # self.settings_widget = SettingsWidget(self, robot)
@@ -36,7 +36,7 @@ class WindowManager:
     # Private methods
     # =================
 
-    def __create_window(self) -> tuple[Tk, int, int]:
+    def __create_window(self):
         window = Tk()
         window.title('BE Modélisation')
         window.geometry("1280x800")

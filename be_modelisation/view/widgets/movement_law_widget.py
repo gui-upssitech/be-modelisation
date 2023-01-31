@@ -6,11 +6,11 @@ from be_modelisation.model import Law
 
 class MovementLawWidget:
 
-    def __init__(self, t: list[float], s: Law):
+    def __init__(self, t, s):
         self.t = t
         self.s = s
 
-    def draw(self, parent: Frame):
+    def draw(self, parent):
         # Create widget root
         root = Frame(parent)
 

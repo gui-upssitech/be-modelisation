@@ -4,10 +4,10 @@ from ..parameters import Parameters
 
 class MGI:
 
-    def __init__(self, parameters: Parameters):
+    def __init__(self, parameters):
         self.__parameters = parameters
 
-    def compute(self, dest: Point, theta: float) -> list[list[float]]:
+    def compute(self, dest, theta):
         # Variable setup
         p = self.__parameters
         l1, l2, l3, l4, l5 = p.l(1), p.l(2), p.l(3), p.l(4), p.l(5)
@@ -17,7 +17,7 @@ class MGI:
 
         # angle calculation functions
 
-        def angles_q2(sin_q2_sign: int):
+        def angles_q2(sin_q2_sign):
             cos_q2 = ((dest.x - l5 * cos(theta) - l1)** 2 + (dest.y - l5 * sin(theta))**2 - l34**2) / (2 * l2 * l34)
             sin_q2 = sin_q2_sign * sqrt(abs(1 - cos_q2**2))
 
@@ -36,7 +36,7 @@ class MGI:
 
             return cos_q1, sin_q1
 
-        def compute_inner(sin_q2_sign: int) -> list[float]:
+        def compute_inner(sin_q2_sign):
             # calculate cosine and sine values
             cos_q2, sin_q2 = angles_q2(sin_q2_sign)
             cos_q1, sin_q1 = angles_q1(cos_q2, sin_q2)

@@ -4,7 +4,7 @@ from ..tkfigure import TKFigure
 
 class QGraphWidget:
 
-    def __init__(self, t: list[float], q: list[list[list[float]]]):
+    def __init__(self, t, q):
         self.t = t
         self.q_lists = q
         self.cur_list = 0
@@ -13,7 +13,7 @@ class QGraphWidget:
     def q_list(self):
         return self.q_lists[self.cur_list]
 
-    def draw(self, parent: Frame):
+    def draw(self, parent):
         # Create widget root
         root = Frame(parent)
 

@@ -4,9 +4,9 @@ from be_modelisation.model import Robot, Point
 
 class SettingsWidget:
 
-    def __init__(self, wm, robot: Robot):
+    def __init__(self, wm, robot):
 
-        def parse_robot_param(value: Point | int):
+        def parse_robot_param(value):
             var = StringVar()
             var.set(str(value) if isinstance(value, int) else f"{value.x};{value.y};{value.z}")
             return var
@@ -40,7 +40,7 @@ class SettingsWidget:
     # Private methods
     # =================
 
-    def __parse_input(self, value: str):
+    def __parse_input(self, value):
         try:
             if ";" in value:
                 return Point(*[float(i) for i in value.split(";")])

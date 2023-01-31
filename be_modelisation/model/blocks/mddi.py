@@ -5,7 +5,7 @@ from numpy import sin, cos
 
 class MDDI:
 
-    def __init__(self, q: list[float], parameters: Parameters):
+    def __init__(self, q, parameters):
         self.q = q
         self.__params = parameters
 
@@ -37,8 +37,8 @@ class MDDI:
     def jacob_inv(self):
         return np.linalg.inv(self.jacob())
 
-    def compute_mdd(self, qd: list[float]):
+    def compute_mdd(self, qd):
         return self.jacob_inv() * np.matrix(qd).T
 
-    def compute_mdi(self, point: Point):
+    def compute_mdi(self, point):
         return self
