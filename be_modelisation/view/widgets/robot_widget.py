@@ -1,4 +1,4 @@
-from be_modelisation.model import Q, Joints, Point, Parameters
+from be_modelisation.model import Point, Parameters
 from tkinter import *
 from ..tkfigure import TKFigure
 from matplotlib.animation import FuncAnimation
