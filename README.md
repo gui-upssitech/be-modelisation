@@ -8,7 +8,7 @@
 chmod +x setup.bash
 chmod +x run.bash
 ```
-3. Exécuter le fichier `setup.bash`
-4. Modifier les paramètres dans le fichier `be_modelisation/main.py`
-5. Executer le fichier `run.bash`
+<!-- 3. Exécuter le fichier `setup.bash` -->
+3. Modifier les paramètres dans le fichier `be_modelisation/main.py`
+4. Executer le fichier `run.bash`
 
