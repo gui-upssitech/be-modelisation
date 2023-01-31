@@ -4,7 +4,3 @@ __pycache__/
 
 # Juyter notebook checkpoints
 .ipynb_checkpoints
-
-#Egg info files produced by pip installation
-*egg-info
-venv/
